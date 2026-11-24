@@ -1,7 +1,8 @@
 //
-//  MovieCatalogViewModel.swift
+//  MovieCatalogView.swift
 //  FoundationFinalProject
 //
 //  Created by Found on 24/11/26.
 //
+
 
