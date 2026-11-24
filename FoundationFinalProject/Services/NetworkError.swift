@@ -1,7 +1,7 @@
-//
-//  NetworkError.swift
-//  FoundationFinalProject
-//
-//  Created by Found on 17/11/26.
-//
+import Foundation
 
+enum NetworkError: Error {
+    case invalidURL
+    case requestFailed(statusCode: Int)
+    case decodingError
+}
