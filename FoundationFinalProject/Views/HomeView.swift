@@ -44,10 +44,8 @@ struct HomeView: View {
                     
                     secaoFilmes(titulo: "Populares")
                     
-
                     secaoFilmes(titulo: "Recentes")
-                    
-                    // 4. Seção Descobertas
+
                     secaoFilmes(titulo: "Em alta")
                 }
                 .padding(.top, 10)
@@ -56,7 +54,7 @@ struct HomeView: View {
         }
     }
     
-    // Função simples para repetir cada carrossel
+    // função simples para repetir cada carrossel
     func secaoFilmes(titulo: String) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(titulo)
