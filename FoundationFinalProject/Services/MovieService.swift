@@ -17,7 +17,7 @@ private func performRequest(endpoint: String, queries: [URLQueryItem] = []) asyn
     allQueries.append(URLQueryItem(name: "language", value: userLanguage))
     
     
-    
+    return []
     }
 }
 
