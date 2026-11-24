@@ -1,15 +1,21 @@
 import Foundation
 
 struct MovieResponse: Codable {
-    let totalPages: Int
-    let results: [MovieDTO]
-    let page: Int
-    let totalResults: Int
+    let totalPages: Int?
+    let results: [MovieDTO]?
+    let items: [MovieDTO]?
+    let page: Int?
+    let totalResults: Int?
     
-    enum CodingKeys: String, CodingKey{
+    var allMovies: [MovieDTO] {
+        return results ?? items ?? []
+    }
+    
+    enum CodingKeys: String, CodingKey {
         case totalPages = "total_pages"
         case totalResults = "total_results"
         case results
+        case items
         case page
     }
 }
