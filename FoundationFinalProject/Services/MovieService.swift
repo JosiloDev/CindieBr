@@ -3,7 +3,7 @@
 import Foundation
 
 struct MovieService {
-    private let baseURL = "https://themoviedb.org"
+    private let baseURL = "https://api.themoviedb.org/3"
     private let apiKey = "3203e8a89f3680d3a63c58f07c57c7e6"
 
     func fetchPopular() async throws -> [MovieDTO] {
