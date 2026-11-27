@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     let corLilas = Color(red: 0.78, green: 0.45, blue: 0.88)
-    
+    @StateObject private var filmesVM = FilmesHomeViewModel()
     let gradienteRoxo = LinearGradient(
             colors: [
                 Color(red: 0.65, green: 0.35, blue: 0.98),
@@ -42,63 +42,108 @@ struct HomeView: View {
                     }
                     .padding(.horizontal)
                     
-                    secaoFilmes(titulo: "Populares")
-                    
-                    secaoFilmes(titulo: "Recentes")
+                    secaoFilmes(
+                        titulo: "Populares",
+                        filmes: filmesVM.populares
+                    )
 
-                    secaoFilmes(titulo: "Em alta")
+                    secaoFilmes(
+                        titulo: "Recentes",
+                        filmes: filmesVM.recentes
+                    )
+
+                    secaoFilmes(
+                        titulo: "Em alta",
+                        filmes: filmesVM.emAlta
+                    )
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)
             }
         }
+        .task {
+            await filmesVM.carregarFilmes()
+        }
     }
     
     // função simples para repetir cada carrossel
-    func secaoFilmes(titulo: String) -> some View {
+ 
+    func secaoFilmes(
+        titulo: String,
+        filmes: [MovieDTO]
+    ) -> some View {
+
         VStack(alignment: .leading, spacing: 12) {
+
             Text(titulo)
                 .font(.title2)
                 .bold()
                 .foregroundColor(.white)
                 .padding(.horizontal)
-            
+
             ScrollView(.horizontal, showsIndicators: false) {
+
                 HStack(spacing: 14) {
-                    ForEach(0..<4, id: \.self) { _ in
-                        cardFilme()
+
+                    ForEach(filmes) { filme in
+                        cardFilme(filme: filme)
                     }
                 }
                 .padding(.horizontal)
             }
         }
     }
+
     
-    func cardFilme() -> some View {
+
+    func cardFilme(filme: MovieDTO) -> some View {
+
         ZStack(alignment: .bottomLeading) {
-            //trocar esse retangulo pelo poster do filme na api ("nome_da_imagem"))
-            Rectangle()
-                .fill(Color.gray.opacity(0.3))
-                .frame(width: 140, height: 220)
-            
-            //titulo e data da carta
+
+            AsyncImage(
+                url: URL(
+                    string: "https://image.tmdb.org/t/p/w500\(filme.posterPath ?? "")"
+                )
+            ) { image in
+
+                image
+                    .resizable()
+                    .scaledToFill()
+
+            } placeholder: {
+
+                Rectangle()
+                    .fill(Color.gray.opacity(0.3))
+                    .overlay {
+                        ProgressView()
+                            .tint(.white)
+                    }
+            }
+            .frame(width: 140, height: 220)
+            .clipped()
+
+            LinearGradient(
+                colors: [.clear, .black.opacity(0.8)],
+                startPoint: .center,
+                endPoint: .bottom
+            )
+
             VStack(alignment: .leading, spacing: 2) {
-                Text("2026")
+
+                Text(String(filme.releaseDate?.prefix(4) ?? ""))
                     .font(.caption2)
                     .foregroundColor(.white.opacity(0.8))
-                
-                Text("Minha melhor amiga")
+
+                Text(filme.title)
                     .font(.subheadline)
                     .bold()
                     .foregroundColor(.white)
+                    .lineLimit(2)
             }
             .padding(10)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.ultraThinMaterial)
-            .environment(\.colorScheme, .dark)
         }
         .frame(width: 140, height: 220)
-        .cornerRadius(16)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
 
