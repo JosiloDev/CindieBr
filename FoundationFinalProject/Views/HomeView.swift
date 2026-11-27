@@ -49,7 +49,7 @@ struct HomeView: View {
                     secaoFilmes(titulo: "Em alta")
                 }
                 .padding(.top, 10)
-                .padding(.bottom, 100)
+                .padding(.bottom, 10)
             }
         }
     }
