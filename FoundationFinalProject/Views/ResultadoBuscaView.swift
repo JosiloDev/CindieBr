@@ -29,7 +29,7 @@ struct CategoryMoviesView: View {
 
             VStack(alignment: .leading, spacing: 16) {
 
-                // Título da categoria
+               
                 Text(categoriaTitulo)
                     .font(.largeTitle)
                     .bold()
@@ -37,7 +37,7 @@ struct CategoryMoviesView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 10)
 
-                // Barra de busca
+     
                 HStack(spacing: 12) {
 
                     HStack(spacing: 8) {
@@ -75,7 +75,6 @@ struct CategoryMoviesView: View {
                 }
                 .padding(.horizontal, 20)
 
-                // Grade de filmes
                 ScrollView(showsIndicators: false) {
 
                     LazyVGrid(
@@ -83,8 +82,6 @@ struct CategoryMoviesView: View {
                         spacing: 14
                     ) {
 
-                        // Agora existem filmes suficientes
-                        // para preencher várias fileiras.
                         ForEach(0..<30, id: \.self) { _ in
                             cardFilmeGrade()
                         }
@@ -99,32 +96,41 @@ struct CategoryMoviesView: View {
         .preferredColorScheme(.dark)
     }
 
-    // Card individual do filme
     func cardFilmeGrade() -> some View {
 
-        ZStack(alignment: .bottomLeading) {
+        GeometryReader { geometry in
 
-            Rectangle()
-                .fill(Color.gray.opacity(0.3))
+            ZStack(alignment: .bottomLeading) {
 
-            VStack(alignment: .leading, spacing: 2) {
+                Rectangle()
+                    .fill(Color.gray.opacity(0.3))
 
-                Text("2026")
-                    .font(.system(size: 9))
-                    .foregroundColor(.white.opacity(0.8))
+                VStack(alignment: .leading, spacing: 2) {
 
-                Text("A Odisseia")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundColor(.white)
-                    .lineLimit(1)
+                    Text("2026")
+                        .font(.system(size: 9))
+                        .foregroundColor(.white.opacity(0.8))
+
+                    Text("A Odisseia")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundColor(.white)
+                        .lineLimit(1)
+                }
+                .padding(8)
+                .frame(
+                    maxWidth: .infinity,
+                    alignment: .leading
+                )
+                .background(.ultraThinMaterial)
+                .environment(\.colorScheme, .dark)
             }
-            .padding(8)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.ultraThinMaterial)
-            .environment(\.colorScheme, .dark)
+            .frame(
+                width: geometry.size.width,
+                height: geometry.size.height
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
-        .aspectRatio(2.0/3.0, contentMode: .fit)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .aspectRatio(140.0 / 220.0, contentMode: .fit)
     }
 }
 
